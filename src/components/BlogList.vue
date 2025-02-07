@@ -29,6 +29,13 @@
           <Column header="Action">
             <template #body="slotProps">
               <Button
+                label="Update"
+                severity="info"
+                class="me-2"
+                @click="navigateUpdate(slotProps.data.id)"
+              />
+
+              <Button
                 label="Delete"
                 severity="danger"
                 @click="deleteBlogDialog(slotProps.data.id)"
@@ -52,6 +59,7 @@ import { deleteBlog, getBlogs } from "@/services/api";
 import AddBlogDialog from "./AddBlogDialog.vue";
 import { useAlertStore } from "@/utils/AlertStore";
 import { useConfirm } from "primevue";
+import { useRouter } from "vue-router";
 
 const blogs = ref([]);
 const showAddDialog = ref(false);
@@ -61,6 +69,7 @@ const totalRecords = ref(0);
 const toastAlert = useAlertStore();
 const confirm = useConfirm();
 const loading = ref(false);
+const router = useRouter();
 
 const fetchBlogs = async (page, limit) => {
   loading.value = true;
@@ -91,6 +100,10 @@ const openDialog = () => {
 
 const closeDialog = () => {
   showAddDialog.value = false;
+};
+
+const navigateUpdate = (id) => {
+  router.push(`/blog/edit/${id}`);
 };
 
 const deleteBlogDialog = (id) => {
